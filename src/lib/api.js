@@ -1,10 +1,12 @@
-// Same-origin API (backend serves frontend + /api on one URL)
-const API_BASE = import.meta.env.VITE_API_URL || ''
+// Local dev stays on the same origin. Production builds call the Render API.
+const RENDER_API = 'https://carwash-backend-h1aq.onrender.com'
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? RENDER_API : '')
 
 export function mediaUrl(path) {
   if (!path) return ''
   if (path.startsWith('http')) return path
-  return `${API_BASE}${path}`
+  if (path.startsWith('/uploads')) return `${API_BASE}${path}`
+  return path
 }
 
 export async function api(path, { method = 'GET', body, token, formData } = {}) {
