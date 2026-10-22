@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="lx-metal" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ECFDF3"/>
+      <stop offset="0.5" stop-color="#B6C8BD"/>
+      <stop offset="1" stop-color="#7F9488"/>
+    </linearGradient>
+    <linearGradient id="lx-accent" x1="14" y1="30" x2="40" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#10B981"/>
+      <stop offset="1" stop-color="#22E57A" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 2.5 43 13.25v21.5L24 45.5 5 34.75v-21.5L24 2.5Z" stroke="url(#lx-metal)" stroke-width="1.6"/>
+  <path d="M17 13v20h15" stroke="url(#lx-metal)" stroke-width="3.2" stroke-linecap="square"/>
+  <path d="M21 27.5h17" stroke="url(#lx-accent)" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

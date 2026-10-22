@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #07110c;
+  --color-cloud: #0c1a13;
+  --color-graphite: #13241b;
+  --color-ink: #ecfdf3;
+  --color-silver: #b6c8bd;
+  --color-mist: #7f9488;
+  --color-accent: #22e57a;
+  --color-accent-deep: #10b981;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-paper font-sans text-silver antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-ink/10 bg-cloud p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-paper transition hover:bg-accent-deep disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ink/15 bg-transparent px-4 py-2.5 text-sm font-medium text-ink transition hover:border-accent/40 hover:bg-graphite disabled:opacity-50;
+  }
+  .input {
+    @apply w-full rounded-xl border border-ink/10 bg-graphite px-3 py-2.5 text-sm text-ink outline-none placeholder:text-mist focus:border-accent;
+  }
+  .label {
+    @apply mb-1.5 block text-[11px] font-medium tracking-[0.18em] text-mist uppercase;
+  }
+}
