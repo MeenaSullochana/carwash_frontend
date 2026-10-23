@@ -7,13 +7,14 @@ import SectionHeading from '../components/ui/SectionHeading'
 import Button from '../components/ui/Button'
 import Reveal, { easePremium } from '../components/ui/Reveal'
 import usePageTitle from '../hooks/usePageTitle'
-import { reviewSummary, reviews } from '../data/content'
+import { splitReviews, useReviews } from '../hooks/useReviews'
 
 function Stars({ className = 'size-4' }) {
   return Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`${className} fill-accent text-accent-deep`} aria-hidden="true" />)
 }
 
-function RatingSummary() {
+function RatingSummary({ reviewSummary }) {
+  if (!reviewSummary) return null
   return (
     <section aria-label="Rating summary" className="relative pb-4">
       <div className="container-lux">
@@ -50,7 +51,7 @@ function RatingSummary() {
   )
 }
 
-function ReviewWall() {
+function ReviewWall({ reviews }) {
   return (
     <section aria-labelledby="wall-title" className="section-y relative bg-cloud">
       <div aria-hidden="true" className="hairline absolute inset-x-0 top-0 h-px" />
@@ -66,7 +67,7 @@ function ReviewWall() {
         <div className="mt-12 columns-1 gap-5 sm:columns-2 lg:mt-16 lg:columns-3">
           {reviews.map((r, i) => (
             <motion.figure
-              key={r.name}
+              key={r._id || r.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '0px 0px -10% 0px' }}
@@ -74,8 +75,14 @@ function ReviewWall() {
               className="mb-5 break-inside-avoid rounded-[24px] border border-ink/10 bg-paper p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40"
             >
               <div className="flex items-center justify-between">
-                <div className="flex gap-1" aria-label="5 out of 5 stars">
-                  <Stars className="size-3.5" />
+                <div className="flex gap-1" aria-label={`${r.rating || 5} out of 5 stars`}>
+                  {Array.from({ length: 5 }).map((_, star) => (
+                    <Star
+                      key={star}
+                      className={`size-3.5 ${star < (Number(r.rating) || 5) ? 'fill-accent text-accent-deep' : 'text-ink/15'}`}
+                      aria-hidden="true"
+                    />
+                  ))}
                 </div>
                 <Quote className="size-6 text-ink/10" aria-hidden="true" />
               </div>
@@ -101,18 +108,20 @@ function ReviewWall() {
 
 export default function ReviewsPage() {
   usePageTitle('Reviews')
+  const { reviews, ready } = useReviews()
+  const { spotlight, more, summary } = splitReviews(reviews)
 
   return (
     <>
       <PageHero
         id="reviews-page-title"
         eyebrow="Reviews"
-        title={['Trusted by', '5,000+ car owners.']}
+        title={['Trusted by', 'our customers.']}
         subtitle="Don't take our word for it — here's what our customers say after driving away from Geekay Klean Kare."
       />
-      <RatingSummary />
-      <Testimonials />
-      <ReviewWall />
+      <RatingSummary reviewSummary={ready ? summary : null} />
+      <Testimonials items={spotlight} summary={summary} ready={ready} />
+      {more.length > 0 && <ReviewWall reviews={more} />}
       <FinalCTA />
     </>
   )

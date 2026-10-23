@@ -4,7 +4,13 @@ import { Quote, Star } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import SectionCta from './ui/SectionCta'
 import { easePremium } from './ui/Reveal'
-import { testimonials } from '../data/content'
+import { useReviews } from '../hooks/useReviews'
+
+function Stars({ count = 5 }) {
+  return Array.from({ length: 5 }).map((_, i) => (
+    <Star key={i} className={`size-4 ${i < count ? 'fill-accent text-accent-deep' : 'text-ink/15'}`} aria-hidden="true" />
+  ))
+}
 
 function TestimonialCard({ t, index }) {
   return (
@@ -17,10 +23,8 @@ function TestimonialCard({ t, index }) {
     >
       <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-accent/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 md:opacity-0" />
       <div className="flex items-center justify-between">
-        <div className="flex gap-1" aria-label="5 out of 5 stars">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="size-4 fill-accent text-accent-deep" aria-hidden="true" />
-          ))}
+        <div className="flex gap-1" aria-label={`${t.rating || 5} out of 5 stars`}>
+          <Stars count={Number(t.rating) || 5} />
         </div>
         <Quote className="size-8 text-ink/10" aria-hidden="true" />
       </div>
@@ -42,7 +46,11 @@ function TestimonialCard({ t, index }) {
   )
 }
 
-export default function Testimonials({ cta }) {
+export default function Testimonials({ cta, items, summary: summaryProp, ready: readyProp }) {
+  const remote = useReviews(items !== undefined)
+  const testimonials = items || remote.spotlight
+  const summary = summaryProp || remote.summary
+  const ready = items !== undefined ? readyProp : remote.ready
   const trackRef = useRef(null)
   const [active, setActive] = useState(0)
 
@@ -77,14 +85,12 @@ export default function Testimonials({ cta }) {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading id="reviews-title" eyebrow="Client stories" title={['Loved by people', 'who love cars.']} />
           <div className="flex items-center gap-4">
-            <span className="font-display text-5xl font-semibold text-ink">4.9</span>
+            <span className="font-display text-5xl font-semibold text-ink">{ready ? summary.rating : '—'}</span>
             <span className="text-sm text-mist">
               <span className="flex gap-0.5" aria-hidden="true">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="size-3.5 fill-accent text-accent-deep" />
-                ))}
+                <Stars count={ready ? Math.round(Number(summary.rating) || 0) : 0} />
               </span>
-              <span className="mt-1 block">from 1,200+ verified reviews</span>
+              <span className="mt-1 block">{ready ? `from ${summary.total} verified reviews` : 'Loading reviews'}</span>
             </span>
           </div>
         </div>
@@ -94,14 +100,14 @@ export default function Testimonials({ cta }) {
           className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:mt-16"
         >
           {testimonials.map((t, i) => (
-            <TestimonialCard key={t.name} t={t} index={i} />
+            <TestimonialCard key={t._id || t.name} t={t} index={i} />
           ))}
         </div>
 
         <div className="mt-6 flex justify-center gap-2 md:hidden">
           {testimonials.map((t, i) => (
             <button
-              key={t.name}
+              key={t._id || t.name}
               type="button"
               onClick={() => goTo(i)}
               aria-label={`Show review ${i + 1}`}

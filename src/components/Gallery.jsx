@@ -4,7 +4,27 @@ import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import SectionCta from './ui/SectionCta'
 import { easePremium } from './ui/Reveal'
-import { galleryCategories, galleryItems } from '../data/content'
+import { api, mediaUrl } from '../lib/api'
+import { galleryItems as designGallery } from '../data/content'
+
+const spanClass = {
+  feature: 'md:col-span-2 md:row-span-2',
+  tall: 'md:row-span-2',
+  wide: 'md:col-span-2',
+  normal: '',
+}
+
+function mapGallery(item) {
+  return {
+    id: item._id || item.id,
+    title: item.title,
+    service: item.service,
+    category: item.category,
+    image: item.image?.startsWith('/gallery') || item.image?.startsWith('/uploads') || item.image?.startsWith('http') ? mediaUrl(item.image) : item.image,
+    alt: item.alt || item.title,
+    span: spanClass[item.span] ?? item.span ?? '',
+  }
+}
 
 function GalleryTile({ item, onOpen }) {
   return (
@@ -125,10 +145,32 @@ function Lightbox({ items, index, onClose, onStep }) {
 export default function Gallery({ cta = { href: '/#booking', label: 'Book your detail' } }) {
   const [filter, setFilter] = useState('All')
   const [openIndex, setOpenIndex] = useState(null)
+  const [galleryItems, setGalleryItems] = useState([])
+
+  useEffect(() => {
+    let cancelled = false
+    api('/api/gallery')
+      .then((data) => {
+        if (cancelled) return
+        const list = (data.items || []).map(mapGallery)
+        setGalleryItems(list.length ? list : designGallery.map(mapGallery))
+      })
+      .catch(() => {
+        if (!cancelled) setGalleryItems(designGallery.map(mapGallery))
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const galleryCategories = useMemo(
+    () => ['All', ...new Set(galleryItems.map((item) => item.category).filter(Boolean))],
+    [galleryItems],
+  )
 
   const items = useMemo(
     () => (filter === 'All' ? galleryItems : galleryItems.filter((item) => item.category === filter)),
-    [filter],
+    [filter, galleryItems],
   )
 
   const close = useCallback(() => setOpenIndex(null), [])

@@ -6,6 +6,9 @@ import DashboardPage from './pages/DashboardPage'
 import ServicesPage from './pages/ServicesPage'
 import StaffPage from './pages/StaffPage'
 import AccessoriesPage from './pages/AccessoriesPage'
+import GalleryAdminPage from './pages/GalleryAdminPage'
+import ReviewsAdminPage from './pages/ReviewsAdminPage'
+import FaqsAdminPage from './pages/FaqsAdminPage'
 import BookingsPage from './pages/BookingsPage'
 import BookingDetailPage from './pages/BookingDetailPage'
 import InvoicesPage from './pages/InvoicesPage'
@@ -56,6 +59,30 @@ export default function AdminApp() {
           element={
             <Protected roles={['admin']}>
               <StaffPage />
+            </Protected>
+          }
+        />
+        <Route
+          path="gallery"
+          element={
+            <Protected roles={['admin']}>
+              <GalleryAdminPage />
+            </Protected>
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <Protected roles={['admin']}>
+              <ReviewsAdminPage />
+            </Protected>
+          }
+        />
+        <Route
+          path="faqs"
+          element={
+            <Protected roles={['admin']}>
+              <FaqsAdminPage />
             </Protected>
           }
         />

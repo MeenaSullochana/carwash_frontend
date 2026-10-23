@@ -4,10 +4,6 @@ import HowItWorks from '../components/HowItWorks'
 import FinalCTA from '../components/FinalCTA'
 import Button from '../components/ui/Button'
 import usePageTitle from '../hooks/usePageTitle'
-import { faqs, moreFaqs } from '../data/content'
-
-const allFaqs = [...faqs, ...moreFaqs]
-
 export default function FAQPage() {
   usePageTitle('FAQ')
 
@@ -23,7 +19,7 @@ export default function FAQPage() {
           Ask a Question
         </Button>
       </PageHero>
-      <FAQ items={allFaqs} />
+      <FAQ />
       <HowItWorks />
       <FinalCTA />
     </>

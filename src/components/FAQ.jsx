@@ -1,10 +1,17 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Mail, MessageCircleQuestion, Phone, Plus } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import SectionCta from './ui/SectionCta'
 import Reveal, { easePremium } from './ui/Reveal'
-import { brand, faqs } from '../data/content'
+import { api } from '../lib/api'
+import { brand, faqs, moreFaqs } from '../data/content'
+
+function fallbackFaqs(home) {
+  return [...faqs, ...moreFaqs]
+    .map((faq, index) => ({ ...faq, id: `faq-${index}`, showOnHome: index < faqs.length }))
+    .filter((faq) => (home ? faq.showOnHome : true))
+}
 
 function FaqItem({ faq, index, open, onToggle }) {
   const id = useId()
@@ -62,8 +69,35 @@ function FaqItem({ faq, index, open, onToggle }) {
   )
 }
 
-export default function FAQ({ items = faqs, cta }) {
+export default function FAQ({ items, cta, home = false }) {
   const [openIndex, setOpenIndex] = useState(0)
+  const [loaded, setLoaded] = useState(items || [])
+
+  useEffect(() => {
+    if (items) {
+      setLoaded(items)
+      return undefined
+    }
+    let cancelled = false
+    api('/api/faqs')
+      .then((data) => {
+        if (cancelled) return
+        const mapped = (data.faqs || []).map((faq) => ({
+          id: faq._id,
+          q: faq.question,
+          a: faq.answer,
+          showOnHome: faq.showOnHome !== false,
+        }))
+        const source = mapped.length ? mapped : fallbackFaqs(false)
+        setLoaded(home ? source.filter((faq) => faq.showOnHome) : source)
+      })
+      .catch(() => {
+        if (!cancelled) setLoaded(fallbackFaqs(home))
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [items, home])
 
   return (
     <section id="faq" aria-labelledby="faq-title" className="section-y relative scroll-mt-20 overflow-hidden bg-cloud">
@@ -108,9 +142,9 @@ export default function FAQ({ items = faqs, cta }) {
         </div>
 
         <ul className="space-y-3 sm:space-y-4 lg:col-span-7">
-          {items.map((faq, i) => (
+          {loaded.map((faq, i) => (
             <FaqItem
-              key={faq.q}
+              key={faq.id || faq.q}
               faq={faq}
               index={i}
               open={openIndex === i}

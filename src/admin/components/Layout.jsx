@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { ClipboardList, FileText, LayoutDashboard, LogOut, Package, Sparkles, Users, Wrench } from 'lucide-react'
+import { ClipboardList, FileText, HelpCircle, Images, LayoutDashboard, LogOut, Package, Sparkles, Star, Users, Wrench } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const links = [
@@ -8,6 +8,9 @@ const links = [
   { to: '/admin/my-work', label: 'My work', icon: Wrench },
   { to: '/admin/invoices', label: 'Invoices', icon: FileText, roles: ['admin', 'supervisor'] },
   { to: '/admin/services', label: 'Services', icon: Sparkles, roles: ['admin'] },
+  { to: '/admin/gallery', label: 'Gallery', icon: Images, roles: ['admin'] },
+  { to: '/admin/reviews', label: 'Reviews', icon: Star, roles: ['admin'] },
+  { to: '/admin/faqs', label: 'FAQ', icon: HelpCircle, roles: ['admin'] },
   { to: '/admin/staff', label: 'Staff', icon: Users, roles: ['admin'] },
   { to: '/admin/accessories', label: 'Car items', icon: Package, roles: ['admin'] },
 ]

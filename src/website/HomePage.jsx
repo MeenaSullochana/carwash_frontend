@@ -28,7 +28,7 @@ export default function HomePage() {
       <Gallery cta={{ href: '/gallery', label: 'View full gallery' }} />
       <Testimonials cta={{ href: '/reviews', label: 'View all client reviews' }} />
       <MobileApp />
-      <FAQ cta={{ href: '/faq', label: 'View all FAQs' }} />
+      <FAQ home cta={{ href: '/faq', label: 'View all FAQs' }} />
       <FinalCTA />
     </>
   )
