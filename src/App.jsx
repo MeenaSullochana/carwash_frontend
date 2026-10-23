@@ -3,7 +3,6 @@ import WebsiteLayout from './website/WebsiteLayout'
 import HomePage from './website/HomePage'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
-import PackagesPage from './pages/PackagesPage'
 import GalleryPage from './pages/GalleryPage'
 import ReviewsPage from './pages/ReviewsPage'
 import FAQPage from './pages/FAQPage'
@@ -24,7 +23,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="services" element={<ServicesPage />} />
-        <Route path="packages" element={<PackagesPage />} />
+        <Route path="packages" element={<Navigate to="/services" replace />} />
         <Route path="gallery" element={<GalleryPage />} />
         <Route path="reviews" element={<ReviewsPage />} />
         <Route path="faq" element={<FAQPage />} />

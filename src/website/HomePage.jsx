@@ -4,7 +4,6 @@ import Stats from '../components/Stats'
 import Brands from '../components/Brands'
 import Services from '../components/Services'
 import BeforeAfter from '../components/BeforeAfter'
-import Packages from '../components/Packages'
 import ThreeDCar from '../components/ThreeDCar'
 import WhyChooseUs from '../components/WhyChooseUs'
 import HowItWorks from '../components/HowItWorks'
@@ -23,7 +22,6 @@ export default function HomePage() {
       <Brands />
       <Services cta={{ href: '/services', label: 'View all services' }} />
       <BeforeAfter />
-      <Packages cta={{ href: '/packages', label: 'View all packages' }} />
       <ThreeDCar />
       <WhyChooseUs />
       <HowItWorks />

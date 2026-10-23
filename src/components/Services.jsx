@@ -71,7 +71,7 @@ function ServiceCard({ service, index }) {
   )
 }
 
-export default function Services({ cta = { href: '/packages', label: 'View packages' } }) {
+export default function Services({ cta = { href: '/#booking', label: 'Book a service' } }) {
   const [services, setServices] = useState([])
 
   useEffect(() => {

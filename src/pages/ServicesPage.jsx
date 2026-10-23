@@ -21,9 +21,6 @@ export default function ServicesPage() {
           <Button href="/#booking" size="lg">
             Book a Service
           </Button>
-          <Button href="/packages" variant="ghost" size="lg" icon={false}>
-            Compare Packages
-          </Button>
         </div>
       </PageHero>
       <Services />

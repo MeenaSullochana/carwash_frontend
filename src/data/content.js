@@ -37,7 +37,6 @@ export const navLinks = [
   { label: 'Home', href: '/#home' },
   { label: 'About Us', href: '/about' },
   { label: 'Services', href: '/services' },
-  { label: 'Packages', href: '/packages' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Reviews', href: '/reviews' },
   { label: 'FAQ', href: '/faq' },
@@ -464,7 +463,7 @@ export const footerLinks = {
   ],
   company: [
     { label: 'About', href: '/about' },
-    { label: 'Packages', href: '/packages' },
+    { label: 'Services', href: '/services' },
     { label: 'Gallery', href: '/gallery' },
     { label: 'Reviews', href: '/reviews' },
     { label: 'FAQ', href: '/faq' },
