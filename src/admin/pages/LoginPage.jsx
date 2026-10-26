@@ -5,8 +5,8 @@ import { useAuth } from '../context/AuthContext'
 export default function LoginPage() {
   const { user, login } = useAuth()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('admin@luxora.com')
-  const [password, setPassword] = useState('admin123')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -52,9 +52,6 @@ export default function LoginPage() {
         <button className="btn w-full" disabled={busy}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
-        <p className="text-xs text-mist">
-          Demo: admin@luxora.com / admin123 · supervisor@luxora.com / super123 · washer1@luxora.com / wash123
-        </p>
       </form>
     </div>
   )

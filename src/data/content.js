@@ -14,8 +14,8 @@ import { images } from '../assets/images'
 export const brand = {
   name: 'GEEKAY KLEAN KARE',
   tagline: 'Your Car Deserves a Luxury Experience.',
-  phone: '+91 98765 43210',
-  phoneHref: 'tel:+919876543210',
+  phone: '044-27169190',
+  phoneHref: 'tel:+914427169190',
   email: 'hello@luxoraauto.com',
   whatsappHref: 'https://wa.me/919876543210',
   address: 'SF No. 356/6A3A, Sri Vasuvui Nagar, Sungavarchatram, SIPCOT Industrial Park, Sriperumbudur.',

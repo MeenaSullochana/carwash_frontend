@@ -19,7 +19,7 @@ import FAQ from '../components/FAQ'
 import { brand, businessHours, contactTopics } from '../data/content'
 
 const channels = [
-  { icon: Phone, label: 'Call concierge', value: brand.phone, href: brand.phoneHref },
+  { icon: Phone, label: 'Landline', value: brand.phone, href: brand.phoneHref },
   { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with us', href: brand.whatsappHref, external: true },
   { icon: Mail, label: 'Email', value: brand.email, href: `mailto:${brand.email}` },
   { icon: MapPin, label: 'Visit studio', value: brand.address, href: brand.mapLink, external: true },
